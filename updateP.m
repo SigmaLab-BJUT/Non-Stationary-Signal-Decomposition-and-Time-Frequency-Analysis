@@ -1,0 +1,32 @@
+function [p,gamma,snr] = updateP(s0,s1,s2,p,q,D1,n1,ptrue,wd)
+% if nargin<8;D01 = 1;end
+% if nargin<6;sobo = 0;end
+% if nargin<7;beta = 0.1;end
+if ~exist('ptrue','var');ptrue = zeros(length(p0),1);end
+snr = 0;
+n = length(s0);
+A = diag(1/2*s1-1/2*s0.*q);
+B = diag(s2-2*(s1).*q-s0.*(D1*q)+s0.*q.*q);
+x1 = 8;
+T = [1,floor(linspace(x1,length(s0)-x1+1,n1)),length(s0)];
+for i = 1:length(T)
+    y = zeros(length(T),1);
+    y(i) = 1;
+    PHI(:,i)=interp1(T,y,1:length(s0),'spline');
+end
+p10 = (PHI'*PHI)\(PHI'*p);
+% gamma = 1e-2;
+% beta = 1e-4;
+gamma = 0;
+beta = 0;
+W = A*D1+B;
+W(1:4,:) = 0;
+W(end-3:end,:)=0;
+s0(1:4) = 0;
+s0(end-3:end)=0;
+W = W*PHI;
+p1 = (W'*W+gamma*(PHI'*PHI))\(-W'*s0+gamma*(PHI'*PHI)*p10);
+p = PHI*p1;
+gamma = beta*((W*(p1-p10))'*(W*(p1-p10)))/((PHI*(p1-p10))'*(PHI*(p1-p10)));
+snr = 0;
+end
