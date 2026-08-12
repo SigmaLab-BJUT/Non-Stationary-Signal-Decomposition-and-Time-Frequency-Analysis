@@ -1,6 +1,6 @@
 # SP2021: Non-Stationary Signal Decomposition and Time-Frequency Analysis
 
-A MATLAB toolbox for non-stationary signal decomposition, instantaneous frequency estimation, and time-frequency analysis based on adaptive optimization and sparse regularization.
+A MATLAB toolbox for non-stationary signal decomposition, instantaneous frequency estimation, and time-frequency analysis based on operator-based signal separation with adaptive parameters.
 
 ## 🏗️ Method Overview
 
